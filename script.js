@@ -1,27 +1,33 @@
 const container = document.querySelector(".shelf");
 
+// const myLibrary = [
+//   {
+//     author: "J.K. Rowling",
+//     title: "Harry Potter and the Sorcerer's Stone",
+//     pages: 223,
+//     isRead: true,
+//     uid: crypto.randomUUID(),
+//   },
+//   {
+//     author: "J.K. Rowling",
+//     title: "Harry Potter and the Chamber of Secrets",
+//     pages: 251,
+//     isRead: false,
+//     uid: crypto.randomUUID(),
+//   },
+//   {
+//     author: "J.K. Rowling",
+//     title: "Harry Potter and the Prisoner of Azkaban",
+//     pages: 317,
+//     isRead: false,
+//     uid: crypto.randomUUID(),
+//   },
+// ];
+
 const myLibrary = [
-  {
-    author: "J.K. Rowling",
-    title: "Harry Potter and the Sorcerer's Stone",
-    pages: 223,
-    isRead: true,
-    uid: crypto.randomUUID(),
-  },
-  {
-    author: "J.K. Rowling",
-    title: "Harry Potter and the Chamber of Secrets",
-    pages: 251,
-    isRead: false,
-    uid: crypto.randomUUID(),
-  },
-  {
-    author: "J.K. Rowling",
-    title: "Harry Potter and the Prisoner of Azkaban",
-    pages: 317,
-    isRead: false,
-    uid: crypto.randomUUID(),
-  },
+  new Book("J.K. Rowling", "Harry Potter and the Sorcerer's Stone", 223, true),
+  new Book("J.K. Rowling", "Harry Potter and the Chamber of Secrets", 251, false),
+  new Book("J.K. Rowling", "Harry Potter and the Prisoner of Azkaban", 317, false),
 ];
 
 //add Event Listener to page
@@ -52,7 +58,7 @@ function Book(author, title, pages, isRead) {
   this.uid = crypto.randomUUID();
 }
 
-//change Book read status from read / unread
+//function to change Book read status from read / unread
 Book.prototype.markRead = function () {
   this.isRead = !this.isRead;
 };
