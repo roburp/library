@@ -43,6 +43,11 @@ function Book(author, title, pages, isRead) {
   this.uid = crypto.randomUUID();
 }
 
+//change Book read status from read / unread
+Book.prototype.markRead = function () {
+  this.isRead = !this.isRead;
+};
+
 function displayBooks() {
   container.innerHTML = ""; //clears the container
 
