@@ -28,9 +28,18 @@ const myLibrary = [
 container.addEventListener("click", (e) => {
   // Check if clicked element is a Remove button
   if (e.target.tagName === "BUTTON" && e.target.classList.contains("remove-btn")) {
-    // Get the book's id from the closest parent with dataset.id
-    const bookId = e.target.closest(".book-item").dataset.id;
+    // Get the book's id from the closest parent with dataset.uid
+    const bookId = e.target.closest(".book-item").dataset.uid;
     removeBookFromLibrary(bookId);
+  }
+  if (e.target.tagName === "BUTTON" && e.target.classList.contains("mark-read-btn")) {
+    // Get the book's id from the closest parent with dataset.uid
+    const bookId = e.target.closest(".book-item").dataset.uid;
+    const book = myLibrary.find((book) => book.uid === bookId);
+    if (book) {
+      book.markRead();
+      displayBooks();
+    }
   }
 });
 
@@ -54,7 +63,7 @@ function displayBooks() {
   myLibrary.forEach((book) => {
     const bookItem = document.createElement("div");
     bookItem.classList.add("book-item");
-    bookItem.dataset.id = book.uid;
+    bookItem.dataset.uid = book.uid;
 
     const bookTitle = document.createElement("h2");
     bookTitle.textContent = book.title;
@@ -79,10 +88,15 @@ function displayBooks() {
     infoRead.textContent = `Read: ${book.isRead ? "Yes" : "No"}`;
     bookInfo.appendChild(infoRead);
 
+    const markReadBtn = document.createElement("button");
+    markReadBtn.classList.add("mark-read-btn");
+    markReadBtn.textContent = `Mark as ${book.isRead ? "Unread" : "Read"}`;
+    bookItem.appendChild(markReadBtn);
+
     const removeBtn = document.createElement("button");
     removeBtn.classList.add("remove-btn");
     removeBtn.textContent = "Remove";
-
+    bookItem.appendChild(removeBtn);
     // removeBtn.addEventListener("click", (e) => {
     //   removeBookFromLibrary(e.target.parentElement.dataset.id);
     // });
@@ -91,7 +105,6 @@ function displayBooks() {
     //   removeBookFromLibrary(book.uid);
     // });
 
-    bookItem.appendChild(removeBtn);
     container.appendChild(bookItem);
   });
 }
