@@ -8,3 +8,10 @@ h1 {
   font-size: 2em;
   font-weight: bold;
 }
+
+.shelf {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-gap: 1em;
+  margin-top: 1em;
+}

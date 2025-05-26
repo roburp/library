@@ -60,6 +60,7 @@ dialog.addEventListener("click", (e) => {
       }
     }
 
+    //validation for pages
     let numPages = Number(pages);
     if (isNaN(numPages) || numPages < 0 || !Number.isInteger(numPages) || numPages == "") {
       alert("Please enter a valid number of pages.");
@@ -77,15 +78,14 @@ dialog.addEventListener("click", (e) => {
     document.querySelector("#add-book-form").reset();
   }
 });
-// const confirmBookButton = document.querySelector("#confirm-btn");
-// addBookButton.addEventListener("click", (e) => {
-//   // const author = document.querySelector("#author").value;
-//   // const title = document.querySelector("#title").value;
-//   // const pages = document.querySelector("#pages").value;
-//   // const read = document.querySelector("#isRead").checked;
 
-//   dialog.showModal();
-// });
+//event listener for escape key to reset form as well (since it already closes the form by default)
+dialog.addEventListener("keydown", (e) => {
+  if (e.key == "Escape") {
+    dialog.close();
+    document.querySelector("#add-book-form").reset();
+  }
+});
 
 //Book constructor
 function Book(author, title, pages, isRead) {
