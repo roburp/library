@@ -11,6 +11,23 @@
   <body>
     <h1>Library</h1>
     <button class="add-btn" type="button">Add Book</button>
+    <dialog>
+      <form id="add-book-form">
+        <h2>Add Book</h2>
+        <label for="author">Author</label>
+        <input type="text" id="author" name="author" required />
+        <label for="title">Title</label>
+        <input type="text" id="title" name="title" required />
+        <label for="pages">Pages</label>
+        <input type="text" id="pages" name="pages" />
+        <label for="isRead">Read?</label>
+        <input type="checkbox" id="isRead" name="isRead" />
+        <div class="form-buttons">
+          <button type="submit" id="confirm-btn">Add Book</button>
+          <button type="button" id="cancel-btn">Cancel</button>
+        </div>
+      </form>
+    </dialog>
     <section class="shelf"></section>
   </body>
 </html>

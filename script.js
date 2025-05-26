@@ -49,6 +49,12 @@ container.addEventListener("click", (e) => {
   }
 });
 
+const addBookButton = document.querySelector(".add-btn");
+addBookButton.addEventListener("click", (e) => {
+  const dialog = document.querySelector("dialog");
+  dialog.showModal();
+});
+
 //Book constructor
 function Book(author, title, pages, isRead) {
   this.author = author;
