@@ -1,28 +1,5 @@
 const container = document.querySelector(".shelf");
-
-// const myLibrary = [
-//   {
-//     author: "J.K. Rowling",
-//     title: "Harry Potter and the Sorcerer's Stone",
-//     pages: 223,
-//     isRead: true,
-//     uid: crypto.randomUUID(),
-//   },
-//   {
-//     author: "J.K. Rowling",
-//     title: "Harry Potter and the Chamber of Secrets",
-//     pages: 251,
-//     isRead: false,
-//     uid: crypto.randomUUID(),
-//   },
-//   {
-//     author: "J.K. Rowling",
-//     title: "Harry Potter and the Prisoner of Azkaban",
-//     pages: 317,
-//     isRead: false,
-//     uid: crypto.randomUUID(),
-//   },
-// ];
+const dialog = document.querySelector("dialog");
 
 const myLibrary = [
   new Book("J.K. Rowling", "Harry Potter and the Sorcerer's Stone", 223, true),
@@ -30,7 +7,7 @@ const myLibrary = [
   new Book("J.K. Rowling", "Harry Potter and the Prisoner of Azkaban", 317, false),
 ];
 
-//add Event Listener to page
+//add Event Listener to bookshelf
 container.addEventListener("click", (e) => {
   // Check if clicked element is a Remove button
   if (e.target.tagName === "BUTTON" && e.target.classList.contains("remove-btn")) {
@@ -49,11 +26,66 @@ container.addEventListener("click", (e) => {
   }
 });
 
-const addBookButton = document.querySelector(".add-btn");
-addBookButton.addEventListener("click", (e) => {
-  const dialog = document.querySelector("dialog");
+//listeners to show dialog modal
+const addBookDialogButton = document.querySelector(".add-btn");
+addBookDialogButton.addEventListener("click", (e) => {
   dialog.showModal();
 });
+
+//dialog modal listeners
+dialog.addEventListener("click", (e) => {
+  if (e.target.tagName === "BUTTON" && e.target.id === "confirm-btn") {
+    e.preventDefault();
+    const authorInput = document.querySelector("#author");
+    const titleInput = document.querySelector("#title");
+    const pagesInput = document.querySelector("#pages");
+
+    const author = document.querySelector("#author").value.trim();
+    const title = document.querySelector("#title").value.trim();
+    const pages = document.querySelector("#pages").value;
+    const isRead = document.querySelector("#isRead").checked;
+
+    //validation for author and title
+    const validations = [
+      { value: author, input: authorInput, message: "Please enter an author." },
+      { value: title, input: titleInput, message: "Please enter a title." },
+      // add more validations here if needed
+    ];
+    for (const { value, input, message } of validations) {
+      if (value == "") {
+        alert(message);
+        input.focus();
+        input.select();
+        return;
+      }
+    }
+
+    let numPages = Number(pages);
+    if (isNaN(numPages) || numPages < 0 || !Number.isInteger(numPages) || numPages == "") {
+      alert("Please enter a valid number of pages.");
+      pagesInput.focus();
+      pagesInput.select();
+      return;
+    }
+
+    addBookToLibrary(author, title, pages, isRead);
+    dialog.close();
+    document.querySelector("#add-book-form").reset();
+  }
+  if (e.target.tagName === "BUTTON" && e.target.id === "cancel-btn") {
+    dialog.close();
+    document.querySelector("#add-book-form").reset();
+  }
+});
+// const confirmBookButton = document.querySelector("#confirm-btn");
+// addBookButton.addEventListener("click", (e) => {
+//   // const author = document.querySelector("#author").value;
+//   // const title = document.querySelector("#title").value;
+//   // const pages = document.querySelector("#pages").value;
+//   // const read = document.querySelector("#isRead").checked;
+
+//   dialog.showModal();
+// });
 
 //Book constructor
 function Book(author, title, pages, isRead) {
