@@ -7,6 +7,7 @@ body {
 h1 {
   font-size: 2em;
   font-weight: bold;
+  margin-bottom: 0.5em;
 }
 
 .shelf {
@@ -14,4 +15,58 @@ h1 {
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   grid-gap: 1em;
   margin-top: 1em;
+}
+
+.book-item {
+  border: 1px solid #ccc;
+  padding: 1em;
+  display: flex;
+  flex-direction: column;
+
+  /* text-align: center; */
+}
+
+.book-item h2 {
+  font-size: 1.6em;
+  margin-bottom: 0.2em;
+  height: 60px;
+}
+
+p.author {
+  font-size: 1.1em;
+  margin-bottom: 0.1em;
+}
+
+p.read {
+  margin-bottom: 1em;
+}
+
+p.read .mark-read-btn {
+  border: 1px solid black;
+  border-radius: 0.3em;
+  color: black;
+  padding: 0.15em 0.5em;
+  cursor: pointer;
+}
+
+.mark-read-btn.read-yes {
+  background-color: rgba(42, 228, 42, 0.55);
+  border-radius: 1em;
+  color: white;
+}
+
+.mark-read-btn.read-no {
+  background-color: rgb(228, 42, 42, 0.55);
+  border-radius: 1em;
+  color: white;
+}
+
+.remove-btn {
+  background-color: rgb(228, 42, 42);
+  border-radius: 1em;
+  color: white;
+  border: none;
+  padding: 0.5em 1em;
+  cursor: pointer;
+  margin-top: auto;
 }

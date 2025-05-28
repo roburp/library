@@ -128,14 +128,21 @@ function displayBooks() {
     bookInfo.appendChild(infoPages);
 
     const infoRead = document.createElement("p");
+    const markReadBtn = document.createElement("button");
     infoRead.classList.add("read");
-    infoRead.textContent = `Read: ${book.isRead ? "Yes" : "No"}`;
+    markReadBtn.classList.add("mark-read-btn");
+    markReadBtn.classList.add(book.isRead ? "read-yes" : "read-no");
+    infoRead.textContent = "Read: ";
+    markReadBtn.textContent = `${book.isRead ? "Yes" : "No"}`;
+    infoRead.appendChild(markReadBtn);
     bookInfo.appendChild(infoRead);
 
-    const markReadBtn = document.createElement("button");
-    markReadBtn.classList.add("mark-read-btn");
-    markReadBtn.textContent = `Mark as ${book.isRead ? "Unread" : "Read"}`;
-    bookItem.appendChild(markReadBtn);
+    // infoRead.textContent = `Read: ${book.isRead ? "Yes" : "No"}`;
+
+    // const markReadBtn = document.createElement("button");
+    // markReadBtn.classList.add("mark-read-btn");
+    // markReadBtn.textContent = `Mark as ${book.isRead ? "Unread" : "Read"}`;
+    // bookItem.appendChild(markReadBtn);
 
     const removeBtn = document.createElement("button");
     removeBtn.classList.add("remove-btn");
