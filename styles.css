@@ -10,6 +10,78 @@ h1 {
   margin-bottom: 0.5em;
 }
 
+.add-btn {
+  background-color: rgb(235, 234, 185);
+  border: 1px solid black;
+  border-radius: 0.3em;
+  color: black;
+  padding: 0.15em 0.5em;
+  cursor: pointer;
+}
+
+dialog {
+  padding: 0;
+  border: none;
+}
+
+form#add-book-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  border: 1px solid black;
+  padding: 1.5em 2em 2em 2em;
+  border-radius: 0.5em;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+form#add-book-form > h2 {
+  font-size: 1.5em;
+  margin-bottom: 0.5em;
+}
+
+form#add-book-form > div {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.2em;
+}
+
+form#add-book-form label {
+  width: 55px;
+}
+
+form#add-book-form input[type="text"] {
+  flex: 1;
+  padding: 0.2em 0.3em;
+  border: 1px solid #ccc;
+  border-radius: 0.3em;
+}
+
+form#add-book-form input#pages {
+  flex: 0;
+  width: 35px;
+}
+
+form#add-book-form input[type="checkbox"] {
+  border: 1px solid #ccc;
+}
+
+form#add-book-form .form-buttons {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 1em;
+  gap: 0.5em;
+}
+
+form#add-book-form .form-buttons button {
+  background-color: rgb(235, 234, 185);
+  border: 1px solid black;
+  border-radius: 0.3em;
+  color: black;
+  padding: 0.15em 0.5em;
+  cursor: pointer;
+}
+
 .shelf {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -22,8 +94,6 @@ h1 {
   padding: 1em;
   display: flex;
   flex-direction: column;
-
-  /* text-align: center; */
 }
 
 .book-item h2 {
