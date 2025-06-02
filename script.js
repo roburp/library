@@ -1,5 +1,10 @@
 const container = document.querySelector(".shelf");
 const dialog = document.querySelector("dialog");
+const addBookForm = document.querySelector("#add-book-form");
+const authorInput = document.querySelector("#author");
+const titleInput = document.querySelector("#title");
+const pagesInput = document.querySelector("#pages");
+const isReadInput = document.querySelector("#isRead");
 
 const myLibrary = [
   new Book("J.K. Rowling", "Harry Potter and the Sorcerer's Stone", 223, true),
@@ -36,54 +41,31 @@ addBookDialogButton.addEventListener("click", (e) => {
 dialog.addEventListener("click", (e) => {
   if (e.target.tagName === "BUTTON" && e.target.id === "confirm-btn") {
     e.preventDefault();
-    const authorInput = document.querySelector("#author");
-    const titleInput = document.querySelector("#title");
-    const pagesInput = document.querySelector("#pages");
 
-    const author = document.querySelector("#author").value.trim();
-    const title = document.querySelector("#title").value.trim();
-    const pages = document.querySelector("#pages").value;
-    const isRead = document.querySelector("#isRead").checked;
+    const formData = getBookFormData(); //author, title, pages, isRead
+    const validation = validateFormData(formData);
 
-    //validation for author and title
-    const validations = [
-      { value: author, input: authorInput, message: "Please enter an author." },
-      { value: title, input: titleInput, message: "Please enter a title." },
-      // add more validations here if needed
-    ];
-    for (const { value, input, message } of validations) {
-      if (value == "") {
-        alert(message);
-        input.focus();
-        input.select();
-        return;
-      }
-    }
-
-    //validation for pages
-    let numPages = Number(pages);
-    if (isNaN(numPages) || numPages < 0 || !Number.isInteger(numPages) || numPages == "") {
-      alert("Please enter a valid number of pages.");
-      pagesInput.focus();
-      pagesInput.select();
+    if (!validation.valid) {
+      alert(validation.message);
+      const input = document.querySelector(validation.field);
+      input.focus();
+      input.select();
       return;
     }
 
-    addBookToLibrary(author, title, pages, isRead);
-    dialog.close();
-    document.querySelector("#add-book-form").reset();
+    //submit -> add book & reset dialog
+    addBookToLibrary(formData.author, formData.title, formData.pages, formData.isRead);
+    resetDialogForm();
   }
   if (e.target.tagName === "BUTTON" && e.target.id === "cancel-btn") {
-    dialog.close();
-    document.querySelector("#add-book-form").reset();
+    resetDialogForm();
   }
 });
 
 //event listener for escape key to reset form as well (since it already closes the form by default)
 dialog.addEventListener("keydown", (e) => {
   if (e.key == "Escape") {
-    dialog.close();
-    document.querySelector("#add-book-form").reset();
+    resetDialogForm();
   }
 });
 
@@ -101,62 +83,53 @@ Book.prototype.markRead = function () {
   this.isRead = !this.isRead;
 };
 
+function createBookElement(book) {
+  const bookItem = document.createElement("div");
+  bookItem.classList.add("book-item");
+  bookItem.dataset.uid = book.uid;
+
+  const bookTitle = document.createElement("h2");
+  bookTitle.textContent = book.title;
+  bookItem.appendChild(bookTitle);
+
+  const bookInfo = document.createElement("div");
+  bookInfo.classList.add("book-info");
+
+  const infoAuthor = document.createElement("p");
+  infoAuthor.classList.add("author");
+  infoAuthor.textContent = `Author: ${book.author}`;
+
+  const infoPages = document.createElement("p");
+  infoPages.classList.add("pages");
+  infoPages.textContent = `Pages: ${book.pages}`;
+
+  const infoRead = document.createElement("p");
+  infoRead.classList.add("read");
+  infoRead.textContent = "Read: ";
+
+  const markReadBtn = document.createElement("button");
+  markReadBtn.setAttribute("type", "button");
+  markReadBtn.classList.add("mark-read-btn");
+  markReadBtn.classList.add(book.isRead ? "read-yes" : "read-no");
+  markReadBtn.textContent = `${book.isRead ? "Yes" : "No"}`;
+  infoRead.appendChild(markReadBtn);
+
+  bookInfo.append(infoAuthor, infoPages, infoRead);
+  bookItem.appendChild(bookInfo);
+
+  const removeBtn = document.createElement("button");
+  removeBtn.classList.add("remove-btn");
+  removeBtn.textContent = "Remove";
+  bookItem.appendChild(removeBtn);
+
+  return bookItem;
+}
+
 function displayBooks() {
   container.innerHTML = ""; //clears the container
 
   myLibrary.forEach((book) => {
-    const bookItem = document.createElement("div");
-    bookItem.classList.add("book-item");
-    bookItem.dataset.uid = book.uid;
-
-    const bookTitle = document.createElement("h2");
-    bookTitle.textContent = book.title;
-    bookItem.appendChild(bookTitle);
-
-    const bookInfo = document.createElement("div");
-    bookInfo.classList.add("book-info");
-    bookItem.appendChild(bookInfo);
-
-    const infoAuthor = document.createElement("p");
-    infoAuthor.classList.add("author");
-    infoAuthor.textContent = `Author: ${book.author}`;
-    bookInfo.appendChild(infoAuthor);
-
-    const infoPages = document.createElement("p");
-    infoPages.classList.add("pages");
-    infoPages.textContent = `Pages: ${book.pages}`;
-    bookInfo.appendChild(infoPages);
-
-    const infoRead = document.createElement("p");
-    const markReadBtn = document.createElement("button");
-    infoRead.classList.add("read");
-    markReadBtn.classList.add("mark-read-btn");
-    markReadBtn.classList.add(book.isRead ? "read-yes" : "read-no");
-    infoRead.textContent = "Read: ";
-    markReadBtn.textContent = `${book.isRead ? "Yes" : "No"}`;
-    infoRead.appendChild(markReadBtn);
-    bookInfo.appendChild(infoRead);
-
-    // infoRead.textContent = `Read: ${book.isRead ? "Yes" : "No"}`;
-
-    // const markReadBtn = document.createElement("button");
-    // markReadBtn.classList.add("mark-read-btn");
-    // markReadBtn.textContent = `Mark as ${book.isRead ? "Unread" : "Read"}`;
-    // bookItem.appendChild(markReadBtn);
-
-    const removeBtn = document.createElement("button");
-    removeBtn.classList.add("remove-btn");
-    removeBtn.textContent = "Remove";
-    bookItem.appendChild(removeBtn);
-    // removeBtn.addEventListener("click", (e) => {
-    //   removeBookFromLibrary(e.target.parentElement.dataset.id);
-    // });
-
-    // removeBtn.addEventListener("click", () => {
-    //   removeBookFromLibrary(book.uid);
-    // });
-
-    container.appendChild(bookItem);
+    container.appendChild(createBookElement(book));
   });
 }
 
@@ -166,17 +139,39 @@ function addBookToLibrary(author, title, pages, isRead) {
   displayBooks();
 }
 
-// const author = document.querySelector("#author").value;
-// const title = document.querySelector("#title").value;
-// const pages = document.querySelector("#pages").value;
-// const read = document.querySelector("#isRead").checked;
-
 function removeBookFromLibrary(uid) {
   const index = myLibrary.findIndex((book) => book.uid === uid);
   if (index !== -1) {
     myLibrary.splice(index, 1);
     displayBooks();
   }
+}
+
+//get Dialog form data
+function getBookFormData() {
+  return {
+    author: authorInput.value.trim(),
+    title: titleInput.value.trim(),
+    pages: pagesInput.value,
+    isRead: isReadInput.checked,
+  };
+}
+
+function resetDialogForm() {
+  dialog.close();
+  addBookForm.reset();
+}
+
+function validateFormData({ author, title, pages }) {
+  if (!author) return { valid: false, message: "Please enter an author.", field: "#author" };
+  if (!title) return { valid: false, message: "Please enter a title.", field: "#title" };
+  if (pages === "") return { valid: false, message: "Please enter a number of pages.", field: "#pages" };
+
+  const numPages = Number(pages);
+  if (isNaN(numPages) || numPages < 0 || !Number.isInteger(numPages)) {
+    return { valid: false, message: "Please enter a valid number of pages.", field: "#pages" };
+  }
+  return { valid: true };
 }
 
 displayBooks();

@@ -1,7 +1,5 @@
 body {
-  height: 100vh;
-  width: 100%;
-  margin: 1em 2em 1em 2em;
+  padding: 1em 2em 1em 2em;
 }
 
 h1 {
@@ -85,7 +83,7 @@ form#add-book-form .form-buttons button {
 .shelf {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  grid-gap: 1em;
+  gap: 1em;
   margin-top: 1em;
 }
 
