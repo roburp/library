@@ -6,11 +6,7 @@ const titleInput = document.querySelector("#title");
 const pagesInput = document.querySelector("#pages");
 const isReadInput = document.querySelector("#isRead");
 
-const myLibrary = [
-  new Book("J.K. Rowling", "Harry Potter and the Sorcerer's Stone", 223, true),
-  new Book("J.K. Rowling", "Harry Potter and the Chamber of Secrets", 251, false),
-  new Book("J.K. Rowling", "Harry Potter and the Prisoner of Azkaban", 317, false),
-];
+const myLibrary = [];
 
 //add Event Listener to bookshelf
 container.addEventListener("click", (e) => {
